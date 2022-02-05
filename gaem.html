@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset = "utf-8">
+<title>Hot Games</title>
+<style>
+* {
+text-align:center;
+}
+#Blob {
+  width: 50px;
+  height: 50px;
+  top: 0px;
+  position: relative;
+  background-color: red;
+  border: 1px inset black;
+}
+#Classy {
+  width: 600px;
+  height: 600px;
+  position: relative;
+  background-color: grey;
+  border: 5px outset black;
+}
+</style>
+</head>
+<body>
+<h1 id='heading'>Game</h1>
+<p id="dod"></p>
+<div id="Classy">
+	<div id="Blob"><img src="man.jpg" width=50 height=50 alt="hot Mans"></div>
+</div>
+
+<script>
+document.getElementById('heading').innerHTML = 'swet';
+let Ypos = 0;
+let NY_pos = 0;
+let Xpos = 0;
+let NX_pos = 0;
+let Yspeed = 1;
+let Xspeed = 1;
+let grav = 'down';
+const height = document.getElementById("Blob").clientHeight;
+const width = document.getElementById("Blob").clientWidth;
+function gravity() {
+	if (NY_pos + height + 1 <= 600 && gravity == 'down') {
+		Ypos++;
+		document.getElementById('Blob').style.top = (Ypos * Yspeed) + 'px';
+		NY_pos = Ypos * Yspeed;
+		Yspeed = Yspeed * 1.01;
+	} else if (grav=='down'){
+		Yspeed = 1;
+		Ypos = (600 - height);
+		NY_pos = (600 - height)
+		document.getElementById("Blob").style.top = (600 - height) + 'px';
+	} else if (NY_pos + height + 1 >= 0 && gravity == 'up') {
+		Ypos--;
+		document.getElementById('Blob').style.top = (Ypos / Yspeed) + 'px';
+		NY_pos = Ypos * Yspeed;
+		Yspeed = Yspeed * 1.01;
+	} else if (grav == 'up') {
+		document.getElementById('heading').innerHTML = NY_pos + ", " + Yspeed + ", " + Ypos + ", " + height;
+		Yspeed = 1;
+		Ypos = 5;
+		NY_pos = 1;
+		document.getElementById("Blob").style.top = Ypos + 'px';
+	}
+	
+}
+document.addEventListener('keydown', function(event) {
+	if (event.keyCode == 37) {
+		Xpos = (Xpos - 1) + (-1 * Xspeed);
+		if (Xpos >= 0) {
+			document.getElementById('Blob').style.left = Xpos + 'px';
+			Xspeed = Math.pow(Xspeed, 1.05) + 0.01;
+		} else {
+			Xspeed = 1;
+			Xpos = 0;
+			document.getElementById("Blob").style.left = 0 + 'px';
+		}
+	}
+});
+document.addEventListener('keydown', function(event) {
+	if (event.keyCode == 38) {
+		if (grav == 'up') {
+			grav = 'down';
+		} else {
+			grav = 'up';
+		}
+	}
+});
+document.addEventListener('keydown', function(event) {
+	if (event.keyCode == 39) {
+		Xpos = (Xpos + 1) + Xspeed;
+		if (Xpos + width + 1 <= 600) {
+			document.getElementById('Blob').style.left = Xpos + 'px';
+			Xspeed = Math.pow(Xspeed, 1.05) + 0.01;
+		} else {
+			Xspeed = 1;
+			Xpos = (600 - width);
+			document.getElementById("Blob").style.left = (600 - width - 1) + 'px';
+		}
+	}
+});
+document.addEventListener("keyup", function(event) {
+	if (event.keyCode == 37 || event.keyCode == 39) {
+		Xspeed = 1;
+	}
+});
+setInterval(gravity, 5);
+</script>
+</body>
